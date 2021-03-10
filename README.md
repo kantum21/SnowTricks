@@ -1,1 +1,2 @@
 # SnowTricks
+TODO : setup instructions
