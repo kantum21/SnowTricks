@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit video{% endblock %}
+
+{% block body %}
+    <div class="video_edit_page">
+        <div class="video-iframe">
+            {{ video.link|raw }}
+        </div>
+        {{ form_start(videoForm) }}
+        {{ form_row(videoForm.link) }}
+        <div class="buttons">
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        {{ form_end(videoForm) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

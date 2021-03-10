@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New video{% endblock %}
+
+{% block body %}
+    <div class="video_new_page">
+        {{ form_start(videoForm) }}
+        {{ form_row(videoForm.link) }}
+        <div class="buttons">
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        {{ form_end(videoForm) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

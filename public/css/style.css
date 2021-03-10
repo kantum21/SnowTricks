@@ -1,0 +1,467 @@
+.main_picture
+{
+    width: 100%;
+    height: 800px;
+}
+.home_page
+{
+    margin-bottom: 50px;
+}
+.home_page .header-container
+{
+    margin-bottom: 25px;
+    
+    position: relative;
+    text-align: center;
+}
+.home_page h1
+{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.home_page .down_arrow
+{
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    bottom: 50px;
+    right: 16px;
+}
+.home_page .add_trick_container
+{
+    height: 75px;
+    position: relative;
+}
+.home_page .add_trick_btn
+{
+    display: block;
+    width: 100px;
+    margin: auto;
+}
+.home_page .trick_container
+{
+    margin-bottom: 25px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.home_page .trick
+{
+    position: relative;
+    width: 320px;
+}
+.home_page .trick img
+{
+    width: 320px;
+    height: 250px;
+}
+.home_page .trick a
+{
+    text-align: center;
+}
+.home_page .trick .edit_icon
+{
+    position: absolute;
+    left: 80%;
+
+    width: 25px;
+    height: 25px;
+}
+.home_page .trick .delete_icon
+{
+    position: absolute;
+    left: 90%;
+
+    width: 25px;
+    height: 25px;
+}
+
+.home_page .load-more-container
+{
+    height: 75px;
+    position: relative;
+}
+.home_page .load-more-btn
+{
+    display: block;
+    width: 100px;
+    margin: auto;
+}
+.home_page .up_arrow
+{
+    transform: rotate(180deg);
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    right: 16px;
+}
+.trick_page
+{
+    width: 70%;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.trick_page .header-container
+{
+    margin-bottom: 25px;
+
+    position: relative;
+    text-align: center;
+}
+.trick_page .trick_main_picture
+{
+    width: 100%;
+    height: 800px;
+}
+.trick_page h1
+{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.trick_page .icons-container
+{
+    position: absolute;
+    top: 5%;
+    right: 2%;
+}
+.trick_page .edit_icon
+{
+    width: 35px;
+    height: 35px;
+}
+.trick_page .delete_icon
+{
+    width: 35px;
+    height: 35px;
+}
+
+.trick_page .trick_container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.trick_page .img-element
+{
+    width: 320px;
+    height: 250px;
+}
+
+.trick_page .video-wrapper iframe
+{
+    width: 320px;
+    height: 250px;
+}
+
+.trick_page .badges
+{
+    text-align: center;
+}
+.trick_new_page
+{
+    width: 70%;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.trick_new_page .header-container
+{
+    margin-bottom: 25px;
+
+    position: relative;
+    text-align: center;
+}
+.trick_new_page .trick_main_picture
+{
+    width: 100%;
+    height: 800px;
+}
+.trick_new_page h1
+{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.trick_new_page .icons-container
+{
+    position: absolute;
+    top: 5%;
+    right: 2%;
+}
+.trick_new_page .edit_icon
+{
+    width: 35px;
+    height: 35px;
+}
+.trick_new_page .delete_icon
+{
+    width: 35px;
+    height: 35px;
+}
+.trick_new_page .mini-container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.trick_new_page .mini
+{
+    width: 200px;
+    height: 150px;
+}
+.trick_new_page .buttons-container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.trick_new_page .trick_container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.trick_new_page .img-element
+{
+    width: 320px;
+    height: 250px;
+}
+.trick_new_page iframe
+{
+    width: 200px;
+    height: 150px;
+}
+.trick_new_page .buttons
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.trick_new_page #submitButton
+{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.trick_edit_page
+{
+    width: 70%;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.trick_edit_page .header-container
+{
+    margin-bottom: 25px;
+
+    position: relative;
+    text-align: center;
+}
+.trick_edit_page .trick_main_picture
+{
+    width: 100%;
+    height: 800px;
+}
+.trick_edit_page h1
+{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.trick_edit_page .icons-container
+{
+    position: absolute;
+    top: 5%;
+    right: 2%;
+}
+.trick_edit_page .edit_icon
+{
+    width: 35px;
+    height: 35px;
+}
+.trick_edit_page .delete_icon
+{
+    width: 35px;
+    height: 35px;
+}
+.trick_edit_page .mini-container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.trick_edit_page .media-container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.trick_edit_page #trick_form_pictures
+{
+    display: inline;
+}
+.trick_edit_page #trick_form_videos
+{
+    display: inline;
+}
+.trick_edit_page .form-check
+{
+    display: inline-block;
+}
+.trick_edit_page .mini
+{
+    width: 150px;
+    height: 125px;
+}
+.trick_edit_page iframe
+{
+    width: 150px;
+    height: 125px;
+}
+.trick_edit_page .icons-container-mini
+{
+    text-align: right   ;
+}
+.trick_edit_page .icons-container-mini img
+{
+    width: 25px;
+    height: 25px;
+}
+.trick_edit_page .buttons
+{
+    padding-top: 75px;
+    padding-bottom: 75px;
+    text-align: center;
+}
+.picture_new_page
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    width: 70%;
+    height: 550px;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.picture_new_page .buttons
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.picture_edit_page
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    width: 70%;
+    height: 550px;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.picture_edit_page p
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.picture_edit_page img
+{
+    width: 300px;
+    height: 250px;
+}
+.picture_edit_page .buttons
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.video_new_page
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    width: 70%;
+    height: 550px;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.video_new_page textarea
+{
+    height: 300px;
+}
+.video_new_page .buttons
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.video_edit_page
+{
+    width: 70%;
+    height: 750px;
+    margin: 100px auto;
+    background-color: rgb(210,210,210);
+}
+.video_edit_page .video-iframe
+{
+    text-align: center;
+}
+.video_edit_page iframe
+{
+    width: 300px;
+    height: 250px;
+}
+.video_edit_page textarea
+{
+    height: 300px;
+}
+.video_edit_page .buttons
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+footer p
+{
+    background-color: #4e555b;
+    margin: 0;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+footer a
+{
+    color: white;
+    text-decoration: underline;
+}
+footer a:hover
+{
+    color: white;
+    text-decoration: underline;
+}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SnowTricks !{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<div class="home_page">
+    <div class="header-container">
+        <img  class="main_picture" src="{{ asset('jpg/snowtricks.jpg') }}" alt="SnowTricks"/>
+        <h1>Welcome on SnowTricks</h1>
+        <a href="#"><img class="down_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="DownArrow" /></a>
+    </div>
+    <div class="container-fluid">
+        <div class="add_trick_container">
+            <div class="add_trick_btn">
+                <a href="{{ path('trick_edit_new') }}" class="btn btn-primary">Add Trick</a>
+            </div>
+        </div>
+        <div class="trick_container">
+        {% for trick in tricks %}
+            <div class="trick">
+                <p>
+                    <a href="{{ path('trick_show', { slug : trick.slug }) }}">
+                        {% if trick.mainPicture %}
+                            <img src="{{ asset('/upload/') }}{{ trick.mainPicture.picture }}" alt="{{ trick.mainPicture.alt }}"/>
+                        {% else %}
+                            <img src="{{ asset('/jpg/defaultTrick.jpg') }}" alt="Trick"/>
+                        {% endif %}
+                    </a>
+                </p>
+                <p>
+                    <a href="{{ path('trick_show', { slug : trick.slug }) }}">{{ trick.name|capitalize }}</a>
+                    <a href="{{ path('trick_edit', { slug : trick.slug }) }}"><img class="edit_icon" src="{{ asset('png/edit.png') }}" alt="Edit"></a>
+                    <a href="{{ path('trick_delete', { slug : trick.slug}) }}" data-confirm="Do you really want to delete ?"><img  class="delete_icon" src="{{ asset('png/trash.png') }}" alt="Delete"></a>
+                </p>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="load-more-container">
+            <div class="load-more-btn">
+                <a href="#" class="btn btn-primary">Load More</a>
+            </div>
+            <a href="#"><img class="up_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="UpArrow" /></a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/confirm_delete.js') }}" type="text/javascript"></script>
+{% endblock %}

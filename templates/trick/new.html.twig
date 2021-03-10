@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New trick{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<div class="trick_new_page">
+    <div class="header-container">
+        <img  id="mainPicture" class="trick_main_picture" src="{{ asset('upload/defaultTrick.jpg') }}" alt="Trick"/>
+        <h1>New Trick</h1>
+        <p class="icons-container">
+            <a href="#" data-toggle="modal" data-target="#selectMainPictureModal"><img class="edit_icon" src="{{ asset('png/edit.png') }}" alt="Edit" /></a>
+            <a id="mainPictureDeleteButton" href="#"><img class="delete_icon" src="{{ asset('png/trash.png') }}" alt="Delete" /></a>
+        </p>
+    </div>
+    <div class="buttons-container">
+        <a href="{{ path('picture_new') }}"><button type="button" class="btn btn-primary">Create new picture</button></a>
+        <a href="#" data-toggle="modal" data-target="#selectPicturesModal"><button type="button" class="btn btn-primary">Add pictures</button></a>
+        <a href="{{ path('video_new') }}"><button type="button" class="btn btn-primary">Create new video</button></a>
+        <a href="#" data-toggle="modal" data-target="#selectVideosModal"><button type="button" class="btn btn-primary">Add videos</button></a>
+    </div>
+    {{ form_start(trickForm) }}
+    <!-- Modal MainPicture-->
+    <div class="modal fade" id="selectMainPictureModal" tabindex="-1" role="dialog" aria-labelledby="mainPictureModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mainPictureModalLabel">Main Picture</h5>
+                </div>
+                <div class="modal-body">
+                    <fieldset class="form-group">
+                        <div id="trick_form_mainPicture" class="mini-container">
+                            {% for element in trickForm.children.mainPicture.children %}
+                                {% if element.vars.id != 'trick_form_mainPicture_placeholder' %}
+                                <div class="form-check">
+                                    <input type="radio" id="{{ element.vars.id }}" name="{{ element.vars.full_name }}" class="form-check-input" value="{{ element.vars.value }}" />
+                                    <label class="form-check-label required" for="{{ element.vars.id }}"><img class="mini" src="{{ asset('upload/' ~ element.vars.label) }}" alt="trick" /></label>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button id="mainPictureSaveButton" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Pictures-->
+    <div class="modal fade" id="selectPicturesModal" tabindex="-1" role="dialog" aria-labelledby="picturesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="picturesModalLabel">Pictures</h5>
+                </div>
+                <div class="modal-body">
+                    <fieldset class="form-group">
+                        <div id="trick_form_pictures" class="mini-container">
+                            {% for element in trickForm.children.pictures.children %}
+                                <div class="form-check">
+                                    <input type="checkbox" id="{{ element.vars.id }}" name="{{ element.vars.full_name }}" class="form-check-input" value="{{ element.vars.value }}" />
+                                    <label class="form-check-label" for="{{ element.vars.id }}"><img class="mini" src="{{ asset('upload/' ~ element.vars.label) }}" alt="trick" /></label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Videos-->
+    <div class="modal fade" id="selectVideosModal" tabindex="-1" role="dialog" aria-labelledby="videosModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videosModalLabel">Videos</h5>
+                </div>
+                <div class="modal-body">
+                    <fieldset class="form-group">
+                        <div id="trick_form_pictures" class="mini-container">
+                            {% for element in trickForm.children.videos.children %}
+                                <div class="form-check">
+                                    <input type="checkbox" id="{{ element.vars.id }}" name="{{ element.vars.full_name }}" class="form-check-input" value="{{ element.vars.value }}" />
+                                    <label class="form-check-label" for="{{ element.vars.id }}">{{ element.vars.label|raw }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_row(trickForm.name) }}
+    {{ form_row(trickForm.description) }}
+    {{ form_row(trickForm.category) }}
+    {% do trickForm.mainPicture.setRendered() %}
+    {% do trickForm.pictures.setRendered() %}
+    {% do trickForm.videos.setRendered() %}
+    <div class="buttons">
+        <input id="submitButton" class="btn btn-primary" type="submit" value="Save" />
+    </div>
+    {{ form_end(trickForm) }}
+</div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/trick_new.js') }}" type="text/javascript"></script>
+{% endblock %}
+

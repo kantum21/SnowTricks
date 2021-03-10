@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit picture{% endblock %}
+
+{% block body %}
+    <div class="picture_edit_page">
+        <p>
+            <img src="{{ asset('upload/') }}{{ picture.picture }}" alt="{{ picture.alt }}" />
+        </p>
+        {{ form_start(pictureForm) }}
+        {{ form_row(pictureForm.picture) }}
+        {{ form_row(pictureForm.alt) }}
+        <div class="buttons">
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        {{ form_end(pictureForm) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/upload_input_file_bugfix.js') }}" type="text/javascript"></script>
+{% endblock %}

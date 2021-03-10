@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+    {% block title %}{{ trick.name }}{% endblock %}
+
+{% block body %}
+    <div class="trick_page">
+        <div class="header-container">
+            {% if trick.mainPicture %}
+                <img  class="trick_main_picture" src="{{ asset('upload/' ~ trick.mainPicture.picture) }}" alt="{{ trick.mainPicture.alt }}"/>
+            {% elseif trick.pictures.first %}
+                <img  class="trick_main_picture" src="{{ asset('upload/' ~ trick.pictures.first.picture) }}" alt="{{ trick.pictures.first.alt }}"/>
+            {% else %}
+                <img  class="trick_main_picture" src="{{ asset('jpg/defaultTrick.jpg') }}" alt="Trick"/>
+            {% endif %}
+            <h1>{{ trick.name|capitalize }}</h1>
+            <p class="icons-container">
+                <a href="#"><img class="edit_icon" src="{{ asset('png/edit.png') }}" alt="Edit" /></a>
+                <a href="#"><img class="delete_icon" src="{{ asset('png/trash.png') }}" alt="Delete" /></a>
+            </p>
+        </div>
+        <div class="container-fluid">
+            <div class="trick_container">
+                {% for picture in trick.pictures %}
+                    {% if picture != trick.mainPicture %}
+                        <p class="element">
+                            <img  class="img-element" src="{{ asset('upload/' ~ picture.picture) }}" alt="{{ picture.alt }}" />
+                        </p>
+                    {% endif %}
+                {% endfor %}
+                {% for video in trick.videos %}
+                    <div class="element video-wrapper">
+                        {{ video.link|raw }}
+                    </div>
+                {% endfor %}
+            </div>
+            <p>{{ trick.description}}</p>
+            <p class="badges">
+                <span class="badge badge-primary">Category : {{ trick.category.name }}</span>
+                <span class="badge badge-primary">Created at : {{ trick.createdAt|date("m/d/Y") }}</span>
+                {% if trick.updatedAt %}
+                    <span class="badge badge-primary">Updated at : {{ trick.updatedAt|date("m/d/Y") }}</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% endblock %}
