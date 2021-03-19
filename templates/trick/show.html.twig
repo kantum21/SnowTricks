@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
-
-    {% block title %}{{ trick.name }}{% endblock %}
-
+{% block title %}{{ trick.name }}{% endblock %}
 {% block body %}
     <div class="trick_page">
         <div class="header-container">
@@ -14,8 +12,8 @@
             {% endif %}
             <h1>{{ trick.name|capitalize }}</h1>
             <p class="icons-container">
-                <a href="#"><img class="edit_icon" src="{{ asset('png/edit.png') }}" alt="Edit" /></a>
-                <a href="#"><img class="delete_icon" src="{{ asset('png/trash.png') }}" alt="Delete" /></a>
+                <a href="{{ path('trick_edit', { slug : trick.slug }) }}" data-confirm="Do you want to edit this trick ?"><img class="edit_icon" src="{{ asset('png/edit.png') }}" alt="Edit" /></a>
+                <a href="{{ path('trick_delete', { slug : trick.slug }) }}" data-confirm="Do you really want to delete ?"><img class="delete_icon" src="{{ asset('png/trash.png') }}" alt="Delete" /></a>
             </p>
         </div>
         <div class="container-fluid">
@@ -43,4 +41,8 @@
             </p>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/confirm_delete.js') }}" type="text/javascript"></script>
 {% endblock %}
