@@ -15,12 +15,18 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Tricks</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_login') }}">Sign In</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Sign Up</a>
-            </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
+                </li>
+            {% elseif is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sign Up</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

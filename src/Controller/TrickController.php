@@ -7,6 +7,7 @@ use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +43,7 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/tricks/edit/new", name="trick_edit_new")
      * @param Request $request
      * @param SluggerInterface $slugger
@@ -71,6 +73,7 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("tricks/edit/{slug}", name="trick_edit")
      * @param Request $request
      * @param Trick $trick
@@ -103,6 +106,7 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/tricks/delete/{slug}", name="trick_delete")
      * @param Trick $trick
      * @param EntityManagerInterface $entityManager
