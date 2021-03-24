@@ -39,7 +39,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setEmail($emails[$i - 1]);
             $user->setUsername($usernames[$i - 1]);
-            $user->setPassword($this->encoder->encodePassword($user, 'password'));
+            $user->setPassword($this->encoder->encodePassword($user, 'ffjjddkk@ST'));
             $user->setActivated(true);
 
             $manager->persist($user);
