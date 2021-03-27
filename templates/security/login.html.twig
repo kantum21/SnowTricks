@@ -4,7 +4,7 @@
 
 {% block body %}
 {{ parent() }}
-<h1 class="h3 mb-3 font-weight-normal">Login</h1>
+<h1>Login</h1>
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -31,6 +31,6 @@
 </form>
 <div>
     <p><a href="{{ path('app_register') }}">Register</a></p>
-    <p><a href="#">Forgot password ?</a></p>
+    <p><a href="{{ path('forgot_password') }}">Forgot password ?</a></p>
 </div>
 {% endblock %}
