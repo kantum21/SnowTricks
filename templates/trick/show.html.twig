@@ -11,10 +11,12 @@
                 <img  class="trick_main_picture" src="{{ asset('jpg/defaultTrick.jpg') }}" alt="Trick"/>
             {% endif %}
             <h1>{{ trick.name|capitalize }}</h1>
+            {% if is_granted('ROLE_USER') %}
             <p class="icons-container">
                 <a href="{{ path('trick_edit', { slug : trick.slug }) }}" data-confirm="Do you want to edit this trick ?"><img class="edit_icon" src="{{ asset('png/edit.png') }}" alt="Edit" /></a>
                 <a href="{{ path('trick_delete', { slug : trick.slug }) }}" data-confirm="Do you really want to delete ?"><img class="delete_icon" src="{{ asset('png/trash.png') }}" alt="Delete" /></a>
             </p>
+            {% endif %}
         </div>
         <div class="container-fluid">
             <div class="trick_container">

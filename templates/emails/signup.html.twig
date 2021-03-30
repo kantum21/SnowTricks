@@ -1,0 +1,9 @@
+<h1>Welcome {{ user.username }}!</h1>
+
+<p>
+    You signed up on SnowTricks with success ! <br/>
+    To activate your account please click on the following link : <br/><br/>
+    <a href="{{ url('user_activate', {username : user.username, token : user.token}) }}">Activate my account</a>
+    <br/>
+    Thanks
+</p>

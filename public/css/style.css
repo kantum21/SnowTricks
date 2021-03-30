@@ -447,6 +447,94 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+.registration_page
+{
+    height: 750px;
+}
+.registration_page h1
+{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.registration_page button
+{
+    margin: 20px;
+}
+.registration_page .registration_form
+{
+    text-align: center;
+    border: solid black;
+    width: 70%;
+    margin:30px auto;
+
+}
+.login_page
+{
+    height: 750px;
+}
+.login_page h1
+{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.login_page button
+{
+    margin: 20px;
+}
+.login_page .login_form
+{
+    text-align: center;
+    border: solid black;
+    width: 70%;
+    margin:30px auto;
+
+}
+.forgot_password_page
+{
+    height: 750px;
+}
+.forgot_password_page h1
+{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.forgot_password_page button
+{
+    margin: 20px;
+}
+.forgot_password_page .forgot_password_form
+{
+    text-align: center;
+    border: solid black;
+    width: 70%;
+    margin:30px auto;
+
+}
+.reset_password_page
+{
+    height: 750px;
+}
+.reset_password_page h1
+{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.reset_password_page button
+{
+    margin: 20px;
+}
+.reset_password_page .reset_password_form
+{
+    text-align: center;
+    border: solid black;
+    width: 70%;
+    margin:30px auto;
+
+}
 footer p
 {
     background-color: #4e555b;
