@@ -2,12 +2,16 @@
 {% block title %}Registration{% endblock %}
 {% block body %}
     {{ parent() }}
-    <h1>Registration</h1>
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-lg btn-primary" type="submit">Create an account</button>
-    {{ form_end(form) }}
-    <a href="{{ path('app_login') }}">Already an account ?</a>
+    <div class="registration_page">
+        <h1>Registration</h1>
+        <div class="registration_form">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-lg btn-primary" type="submit">Create an account</button>
+            {{ form_end(form) }}
+            <p><a href="{{ path('app_login') }}">Already an account ?</a></p>
+        </div>
+    </div>
 {% endblock %}
 
 
