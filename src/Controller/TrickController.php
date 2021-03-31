@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
@@ -33,12 +36,35 @@ class TrickController extends AbstractController
     /**
      * @Route("/tricks/details/{slug}", name="trick_show")
      * @param Trick $trick
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @return Response
+     * @throws Exception
      */
-    public function show(Trick $trick)
+    public function show(Trick $trick, Request $request, EntityManagerInterface $entityManager)
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            /** @var Comment $comment */
+            $comment = $form->getData();
+            $comment->setCreatedAt(new \DateTime('now'));
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            $this->addFlash('success', 'Comment saved !');
+
+            return $this->redirectToRoute('trick_show', [
+               'slug' => $trick->getSlug()
+            ]);
+        }
+
         return $this->render('trick/show.html.twig', [
-           'trick' => $trick
+           'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 
