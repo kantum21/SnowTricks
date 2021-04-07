@@ -4,13 +4,13 @@
 
 {% block body %}
 {{ parent() }}
-<div class="home_page">
+<div id="top" class="home_page">
     <div class="header-container">
         <img  class="main_picture" src="{{ asset('jpg/snowtricks.jpg') }}" alt="SnowTricks"/>
         <h1>Welcome on SnowTricks</h1>
-        <a href="#"><img class="down_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="DownArrow" /></a>
+        <a class="soft-link" href="{{ path('app_homepage') }}#tricksSection"><img class="down_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="DownArrow" /></a>
     </div>
-    <div class="container-fluid">
+    <div id="tricksSection" class="container-fluid">
         {% if is_granted('ROLE_USER') %}
         <div class="add_trick_container">
             <div class="add_trick_btn">
@@ -42,9 +42,9 @@
         </div>
         <div class="load-more-container">
             <div class="load-more-btn">
-                <a href="#" class="btn btn-primary">Load More</a>
+                <a id="load-more" href="{{ path('load_more_tricks') }}" class="btn btn-primary">Load More</a>
             </div>
-            <a href="#"><img class="up_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="UpArrow" /></a>
+            <a class="soft-link" href="{{ path('app_homepage') }}#top"><img class="up_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="UpArrow" /></a>
         </div>
     </div>
 </div>
@@ -52,4 +52,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/confirm_delete.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/load_more_tricks.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/home_page.js') }}" type="text/javascript"></script>
 {% endblock %}

@@ -19,41 +19,24 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function findAllOrderedByCreatedAt()
+    public function findFirstsTricksOrderedByCreatedAt()
     {
         $qb = $this->createQueryBuilder('t')
             ->orderBy('t.createdAt', 'DESC')
+            ->setFirstResult(0)
+            ->setMaxResults(10)
             ->getQuery();
 
         return $qb->getResult();
     }
 
-    // /**
-    //  * @return Trick[] Returns an array of Trick objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findMoreTricksOrderedByCreatedAt($offset)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setFirstResult($offset)
+            ->getQuery();
 
-    /*
-    public function findOneBySomeField($value): ?Trick
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb->getResult();
     }
-    */
 }

@@ -22,7 +22,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i <= 10; $i++)
+        for ($i = 1; $i <= 15; $i++)
         {
             $trick = new Trick();
             $trick->setName('Trick ' . $i);
