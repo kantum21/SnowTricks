@@ -14,10 +14,12 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $contents = [
             "What an amazing trick !",
             "It looks very fun !",
-            "Crazy, i have to try it !"
+            "Crazy, i have to try it !",
+            "Thank you for sharing this !",
+            "SnowTricks is a really good website !"
         ];
 
-        for ($i = 1; $i <= 3;$i++ )
+        for ($i = 1; $i <= 5;$i++ )
         {
             $comment = new Comment();
             $comment->setContent($contents[$i - 1]);

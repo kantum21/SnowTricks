@@ -29,6 +29,10 @@
     bottom: 50px;
     right: 16px;
 }
+.home_page #tricksSection
+{
+    padding-top: 100px;
+}
 .home_page .add_trick_container
 {
     height: 75px;
@@ -177,6 +181,10 @@
     flex-wrap: wrap;
 
     margin: 25px;
+}
+.trick_page .comment_user
+{
+    width: 100px;
 }
 .trick_page .comment_content
 {

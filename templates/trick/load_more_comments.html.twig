@@ -1,0 +1,11 @@
+{% for comment in trick.comments | slice(2) %}
+    <div class="comment">
+        <div class="comment_user">
+            <img src="{{ asset('png/default_user.png') }}" alt="user" class="user_img"/>
+            <div>{{ comment.user.username }}</div>
+        </div>
+        <div class="comment_content">{{ comment.content }}</div>
+        <div class="comment_date">{{ comment.createdAt|date("m/d/Y H:i:s") }}</div>
+    </div>
+{% endfor %}
+

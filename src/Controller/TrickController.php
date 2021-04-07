@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
@@ -27,10 +26,33 @@ class TrickController extends AbstractController
      */
     public function homepage(TrickRepository $trickRepository)
     {
-        $tricks = $trickRepository->findAllOrderedByCreatedAt();
+        $tricks = $trickRepository->findFirstsTricksOrderedByCreatedAt();
         return $this->render('trick/homepage.html.twig', [
             'tricks' => $tricks
         ]);
+    }
+
+    /**
+     * @Route("/loadMoreTricks", name="load_more_tricks")
+     * @param TrickRepository $trickRepository
+     * @param Request $request
+     * @param int $offset
+     * @return Response
+     */
+    public function loadMoreTricks(TrickRepository $trickRepository, Request $request, $offset = 10)
+    {
+        if ($request->isXmlHttpRequest())
+        {
+            $tricks = $trickRepository->findMoreTricksOrderedByCreatedAt($offset);
+            return $this->render('trick/load_more.html.twig', [
+                'tricks' => $tricks
+            ]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_homepage');
+        }
+
     }
 
     /**
@@ -66,6 +88,27 @@ class TrickController extends AbstractController
            'trick' => $trick,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/tricks/details/{slug}/loadMoreComments", name="load_more_comments")
+     * @param Trick $trick
+     * @param Request $request
+     * @return Response
+     */
+    public function loadMoreComments(Trick $trick, Request $request)
+    {
+        if ($request->isXmlHttpRequest())
+        {
+            return $this->render('trick/load_more_comments.html.twig', [
+                'trick' => $trick
+            ]);
+        }
+        else
+        {
+            $this->redirectToRoute('app_homepage');
+        }
+
     }
 
     /**
