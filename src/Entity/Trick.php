@@ -14,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     fields={"name"},
  *     message="There is already a trick for this name"
  * )
+ * @UniqueEntity(
+ *     fields={"slug"},
+ *     message="There is already a trick with this slug"
+ * )
  */
 class Trick
 {
@@ -31,7 +35,7 @@ class Trick
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $slug;
 

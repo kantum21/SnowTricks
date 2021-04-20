@@ -10,5 +10,5 @@ SetUp Instructions
 2. Install dependencies : composer install
 3. Configure environment : in .env file (BDD, SMTP...)
 4. Create DataBase : php bin/console doctrine:database:create
-5. Create Tables in DataBase : php bin/console doctrine:migrations:migrate
+5. Create Tables in DataBase : php bin/console doctrine:schema:create
 6. Load fixtures : php bin/console doctrine:fixtures:load

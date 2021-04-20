@@ -52,7 +52,7 @@ class UserController extends AbstractController
             $user->setToken(md5(random_bytes(10)));
             $em->persist($user);
             $em->flush();
-            self::sendRegistrationEmail($user);
+            $this->sendRegistrationEmail($user);
             $this->addFlash('success', 'Your account has been register, please check your emails to activate it !');
             return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
         }
