@@ -70,6 +70,7 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            $this->denyAccessUnlessGranted('ROLE_USER');
             /** @var Comment $comment */
             $comment = $form->getData();
             $comment->setCreatedAt(new \DateTime('now'));
