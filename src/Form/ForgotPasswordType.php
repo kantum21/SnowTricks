@@ -15,8 +15,8 @@ class ForgotPasswordType extends AbstractType
             ->add('username', null, [
                 'label' => 'Username *',
                 'constraints' => [
-                    new NotBlank()
-                ]
+                    new NotBlank(),
+                ],
             ])
         ;
     }

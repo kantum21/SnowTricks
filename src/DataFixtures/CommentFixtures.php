@@ -12,23 +12,22 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $contents = [
-            "What an amazing trick !",
-            "It looks very fun !",
-            "Crazy, i have to try it !",
-            "Thank you for sharing this !",
-            "SnowTricks is a really good website !"
+            'What an amazing trick !',
+            'It looks very fun !',
+            'Crazy, i have to try it !',
+            'Thank you for sharing this !',
+            'SnowTricks is a really good website !',
         ];
 
-        for ($i = 1; $i <= 5;$i++ )
-        {
+        for ($i = 5; $i > 0; --$i) {
             $comment = new Comment();
             $comment->setContent($contents[$i - 1]);
-            $comment->setCreatedAt(new \DateTime("now"));
-            $comment->setTrick($this->getReference('Trick_' . 1));
-            $comment->setUser($this->getReference('User_' . $i));
+            $comment->setCreatedAt(new \DateTime('now'));
+            $comment->setTrick($this->getReference('Trick_'. 1));
+            $comment->setUser($this->getReference('User_'.$i));
 
             $manager->persist($comment);
-            $this->addReference('Comment_' . $i, $comment);
+            $this->addReference('Comment_'.$i, $comment);
         }
 
         $manager->flush();
@@ -38,7 +37,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             TrickFixtures::class,
-            UserFixtures::class
+            UserFixtures::class,
         ];
     }
 }

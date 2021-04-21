@@ -51,7 +51,7 @@
                 <hr/>
             {% endif %}
             <div class="comments_container">
-            {% for comment in trick.comments | slice(0, 2) %}
+            {% for comment in comments %}
                 <div class="comment">
                     <div class="comment_user">
                         <img src="{{ asset('png/default_user.png') }}" alt="user" class="user_img"/>
@@ -64,7 +64,7 @@
             </div>
             {% if trick.comments.count >= 1 %}
             <div class="load-more-btn">
-                <a id="load-more" href="{{ path('load_more_comments', { slug : trick.slug }) }}"><button class="btn btn-primary">Load more</button></a>
+                <a id="load-more" href="{{ path('load_more_comments', { slug : trick.slug, lastId : comments|last.id }) }}"><button class="btn btn-primary">Load more</button></a>
             </div>
             {% endif %}
             <br/>

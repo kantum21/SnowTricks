@@ -21,13 +21,12 @@ class CategoryFixtures extends Fixture
         ];
 
         $i = -1;
-        foreach ($category_names as $category_name)
-        {
-            $i++;
-            $category  = new Category();
+        foreach ($category_names as $category_name) {
+            ++$i;
+            $category = new Category();
             $category->setName($category_name);
             $manager->persist($category);
-            $this->addReference('Category' . '_' . $i, $category);
+            $this->addReference('Category'.'_'.$i, $category);
         }
 
         $manager->flush();

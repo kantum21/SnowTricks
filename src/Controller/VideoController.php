@@ -19,8 +19,7 @@ class VideoController extends AbstractController
 {
     /**
      * @Route("videos/edit/new", name="video_new")
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
+     *
      * @return RedirectResponse|Response
      */
     public function new(Request $request, EntityManagerInterface $entityManager)
@@ -28,8 +27,7 @@ class VideoController extends AbstractController
         $form = $this->createForm(VideoFormType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var Video $video */
             $video = $form->getData();
             $entityManager->persist($video);
@@ -40,15 +38,13 @@ class VideoController extends AbstractController
         }
 
         return $this->render('video/new.html.twig', [
-            'videoForm' => $form->createView()
+            'videoForm' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("videos/edit/{id}", name="video_edit")
-     * @param Request $request
-     * @param Video $video
-     * @param EntityManagerInterface $entityManager
+     *
      * @return RedirectResponse|Response
      */
     public function edit(Request $request, Video $video, EntityManagerInterface $entityManager)
@@ -56,8 +52,7 @@ class VideoController extends AbstractController
         $form = $this->createForm(VideoFormType::class, $video);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var Video $video */
             $video = $form->getData();
             $entityManager->persist($video);
@@ -69,14 +64,13 @@ class VideoController extends AbstractController
 
         return $this->render('video/edit.html.twig', [
             'videoForm' => $form->createView(),
-            'video' => $video
+            'video' => $video,
         ]);
     }
 
     /**
      * @Route("videos/delete/{id}", name="video_delete")
-     * @param Video $video
-     * @param EntityManagerInterface $entityManager
+     *
      * @return RedirectResponse
      */
     public function delete(Video $video, EntityManagerInterface $entityManager)
@@ -84,6 +78,7 @@ class VideoController extends AbstractController
         $entityManager->remove($video);
         $entityManager->flush();
         $this->addFlash('success', 'Video deleted !');
+
         return $this->redirectToRoute('app_homepage');
     }
 }

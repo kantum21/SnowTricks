@@ -23,7 +23,7 @@ class UserFixtures extends Fixture
             'camille@yopmail.com',
             'martin@yopmail.com',
             'marion@yopmail.com',
-            'mathilde@yopmail.com'
+            'mathilde@yopmail.com',
         ];
 
         $usernames = [
@@ -31,11 +31,10 @@ class UserFixtures extends Fixture
             'Camille',
             'Martin',
             'Marion',
-            'Mathilde'
+            'Mathilde',
         ];
 
-        for ($i = 1; $i<= 5; $i++)
-        {
+        for ($i = 1; $i <= 5; ++$i) {
             $user = new User();
             $user->setEmail($emails[$i - 1]);
             $user->setUsername($usernames[$i - 1]);
@@ -43,7 +42,7 @@ class UserFixtures extends Fixture
             $user->setActivated(true);
 
             $manager->persist($user);
-            $this->addReference('User' . '_' . $i, $user);
+            $this->addReference('User'.'_'.$i, $user);
         }
 
         $manager->flush();

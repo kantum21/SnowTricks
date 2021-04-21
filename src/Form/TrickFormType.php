@@ -15,8 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickFormType extends AbstractType
 {
-
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,7 +25,6 @@ class TrickFormType extends AbstractType
                 'expanded' => true,
                 'multiple' => false,
                 'required' => false,
-
             ])
             ->add('pictures', EntityType::class, [
                 'class' => Picture::class,

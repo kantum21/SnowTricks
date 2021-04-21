@@ -22,7 +22,7 @@ class TrickRepository extends ServiceEntityRepository
     public function findFirstsTricksOrderedByCreatedAt()
     {
         $qb = $this->createQueryBuilder('t')
-            ->orderBy('t.createdAt', 'DESC')
+            ->orderBy('t.id', 'DESC')
             ->setFirstResult(0)
             ->setMaxResults(10)
             ->getQuery();
@@ -30,11 +30,12 @@ class TrickRepository extends ServiceEntityRepository
         return $qb->getResult();
     }
 
-    public function findMoreTricksOrderedByCreatedAt($offset)
+    public function findMoreTricksOrderedByCreatedAt($lastId)
     {
         $qb = $this->createQueryBuilder('t')
-            ->orderBy('t.createdAt', 'DESC')
-            ->setFirstResult($offset)
+            ->andWhere('t.id < :lastId')
+            ->setParameter('lastId', $lastId)
+            ->orderBy('t.id', 'DESC')
             ->getQuery();
 
         return $qb->getResult();
