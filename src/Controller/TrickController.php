@@ -8,6 +8,7 @@ use App\Form\CommentType;
 use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Service\TricksService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,8 +39,6 @@ class TrickController extends AbstractController
     /**
      * @Route("/loadMoreTricks", name="load_more_tricks")
      *
-     * @param int $offset
-     *
      * @return Response
      */
     public function loadMoreTricks(TrickRepository $trickRepository, Request $request)
@@ -58,11 +57,13 @@ class TrickController extends AbstractController
     /**
      * @Route("/tricks/details/{slug}", name="trick_show")
      *
+     * @param Trick $trick
+     * @param CommentRepository $commentRepository
+     * @param Request $request
+     * @param TricksService $tricksService
      * @return Response
-     *
-     * @throws Exception
      */
-    public function show(Trick $trick, CommentRepository $commentRepository, Request $request, EntityManagerInterface $entityManager)
+    public function show(Trick $trick, CommentRepository $commentRepository, Request $request, TricksService $tricksService)
     {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -71,11 +72,7 @@ class TrickController extends AbstractController
             $this->denyAccessUnlessGranted('ROLE_USER');
             /** @var Comment $comment */
             $comment = $form->getData();
-            $comment->setCreatedAt(new \DateTime('now'));
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-            $entityManager->persist($comment);
-            $entityManager->flush();
+            $tricksService->saveComments($comment, $trick, $this->getUser());
             $this->addFlash('success', 'Comment saved !');
 
             return $this->redirectToRoute('trick_show', [

@@ -6,7 +6,7 @@
 {{ parent() }}
 <div id="top" class="home_page">
     <div class="header-container">
-        <img  class="main_picture" src="{{ asset('jpg/snowtricks.jpg') }}" alt="SnowTricks"/>
+        <div class="main_picture" style="background-image: url('{{ asset('jpg/snowtricks.jpg') }}'); background-position: center center;"></div>
         <h1>Welcome on SnowTricks</h1>
         <a class="soft-link" href="{{ path('app_homepage') }}#tricksSection"><img class="down_arrow" src="{{ asset('png/scroll-arrow.png') }}" alt="DownArrow" /></a>
     </div>
