@@ -24,13 +24,13 @@ class PictureFormType extends AbstractType
                     new File([
                             'maxSize' => '2048k',
                             'mimeTypes' => [
-                                'image/jpeg'
+                                'image/jpeg',
                             ],
                             'mimeTypesMessage' => 'Please Upload a valid JPG',
                         ]),
                     new NotBlank(),
                 ],
-                'invalid_message' => 'Please load a JPG picture (max size 2018k)'
+                'invalid_message' => 'Please load a JPG picture (max size 2018k)',
             ])
             ->add('alt', TextType::class, [
                 'label' => 'Alt *',

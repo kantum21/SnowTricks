@@ -17,7 +17,7 @@ class ResetPasswordType extends AbstractType
         $builder
             ->add('username', null, [
                 'label' => 'Username *',
-                'disabled' => true
+                'disabled' => true,
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Password *',
@@ -25,10 +25,10 @@ class ResetPasswordType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Length([
-                        'min' => 5
-                    ])
+                        'min' => 5,
+                    ]),
                 ],
-                'help' => 'Enter your new password'
+                'help' => 'Enter your new password',
             ])
         ;
     }
@@ -36,7 +36,7 @@ class ResetPasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class
+            'data_class' => User::class,
         ]);
     }
 }

@@ -21,9 +21,7 @@ class PictureController extends AbstractController
 {
     /**
      * @Route("/pictures/edit/new", name="picture_new")
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param FileUploader $fileUploader
+     *
      * @return Response
      */
     public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
@@ -31,14 +29,12 @@ class PictureController extends AbstractController
         $form = $this->createForm(PictureFormType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var Picture $picture */
             $picture = $form->getData();
             /** @var UploadedFile $pictureFile */
             $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile)
-            {
+            if ($pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $picture->setPicture($pictureFileName);
             }
@@ -50,16 +46,13 @@ class PictureController extends AbstractController
         }
 
         return $this->render('picture/new.html.twig', [
-            'pictureForm' => $form->createView()
+            'pictureForm' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/pictures/edit/{id}", name="picture_edit")
-     * @param Request $request
-     * @param Picture $picture
-     * @param EntityManagerInterface $entityManager
-     * @param FileUploader $fileUploader
+     *
      * @return RedirectResponse|Response
      */
     public function edit(Request $request, Picture $picture, EntityManagerInterface $entityManager, FileUploader $fileUploader)
@@ -67,14 +60,12 @@ class PictureController extends AbstractController
         $form = $this->createForm(PictureFormType::class, $picture);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var Picture $picture */
             $picture = $form->getData();
             /** @var UploadedFile $pictureFile */
             $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile)
-            {
+            if ($pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
                 $picture->setPicture($pictureFileName);
             }
@@ -93,8 +84,7 @@ class PictureController extends AbstractController
 
     /**
      * @Route("pictures/delete/{id}", name="picture_delete")
-     * @param Picture $picture
-     * @param EntityManagerInterface $entityManager
+     *
      * @return RedirectResponse
      */
     public function delete(Picture $picture, EntityManagerInterface $entityManager)
@@ -102,6 +92,7 @@ class PictureController extends AbstractController
         $entityManager->remove($picture);
         $entityManager->flush();
         $this->addFlash('success', 'Picture deleted !');
+
         return $this->redirectToRoute('app_homepage');
     }
 }

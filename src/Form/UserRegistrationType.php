@@ -16,10 +16,10 @@ class UserRegistrationType extends AbstractType
     {
         $builder
             ->add('username', null, [
-                'label' => 'Username *'
+                'label' => 'Username *',
             ])
             ->add('email', null, [
-                'label' => 'Email *'
+                'label' => 'Email *',
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Password *',
@@ -27,9 +27,9 @@ class UserRegistrationType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Length([
-                        'min' => 5
-                    ])
-                ]
+                        'min' => 5,
+                    ]),
+                ],
             ])
         ;
     }
