@@ -9,7 +9,6 @@ use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Service\TricksService;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,14 +16,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TrickController extends AbstractController
 {
     /**
      * @Route("/", name="app_homepage")
      *
+     * @param TrickRepository $trickRepository
      * @return Response
      */
     public function homepage(TrickRepository $trickRepository)
@@ -39,6 +37,8 @@ class TrickController extends AbstractController
     /**
      * @Route("/loadMoreTricks", name="load_more_tricks")
      *
+     * @param TrickRepository $trickRepository
+     * @param Request $request
      * @return Response
      */
     public function loadMoreTricks(TrickRepository $trickRepository, Request $request)
@@ -90,6 +90,9 @@ class TrickController extends AbstractController
     /**
      * @Route("/tricks/details/{slug}/loadMoreComments", name="load_more_comments")
      *
+     * @param Trick $trick
+     * @param CommentRepository $commentRepository
+     * @param Request $request
      * @return Response
      */
     public function loadMoreComments(Trick $trick, CommentRepository $commentRepository, Request $request)
@@ -107,25 +110,25 @@ class TrickController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/tricks/edit/new", name="trick_edit_new")
      *
+     * @param Request $request
+     * @param TricksService $tricksService
      * @return Response
      *
      * @throws Exception
      */
-    public function new(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager, ValidatorInterface $validator)
+    public function new(Request $request, TricksService $tricksService)
     {
         $form = $this->createForm(TrickFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
-            $trick->setSlug($slugger->slug(strtolower($trick->getName())));
-            $trick->setCreatedAt(new \DateTime());
-            $array = $validator->validate($trick);
+            $array = $tricksService->validateTrick($trick);
             if (count($array) > 0) {
                 $this->addFlash('danger', $array->get(0)->getMessage());
             } else {
-                $entityManager->persist($trick);
-                $entityManager->flush();
+                $trick->setCreatedAt(new \DateTime());
+                $tricksService->saveTrick($trick);
                 $this->addFlash('success', 'Trick saved !');
 
                 return $this->redirectToRoute('app_homepage');
@@ -141,24 +144,30 @@ class TrickController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("tricks/edit/{slug}", name="trick_edit")
      *
+     * @param Request $request
+     * @param Trick $trick
+     * @param TricksService $tricksService
      * @return Response
      *
      * @throws Exception
      */
-    public function edit(Request $request, Trick $trick, SluggerInterface $slugger, EntityManagerInterface $entityManager)
+    public function edit(Request $request, Trick $trick, TricksService $tricksService)
     {
         $form = $this->createForm(TrickFormType::class, $trick);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Trick $trick */
             $trick = $form->getData();
-            $trick->setSlug($slugger->slug(strtolower($trick->getName())));
-            $trick->setUpdatedAt(new \DateTime());
-            $entityManager->persist($trick);
-            $entityManager->flush();
-            $this->addFlash('success', 'Trick updated !');
+            $array = $tricksService->validateTrick($trick);
+            if (count($array) > 0) {
+                $this->addFlash('danger', $array->get(0)->getMessage());
+            } else {
+                $trick->setUpdatedAt(new \DateTime('now'));
+                $tricksService->saveTrick($trick);
+                $this->addFlash('success', 'Trick updated !');
 
-            return $this->redirectToRoute('app_homepage');
+                return $this->redirectToRoute('app_homepage');
+            }
         }
 
         return $this->render('trick/edit.html.twig', [
@@ -171,18 +180,13 @@ class TrickController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/tricks/delete/{slug}", name="trick_delete")
      *
+     * @param Trick $trick
+     * @param TricksService $tricksService
      * @return RedirectResponse
      */
-    public function delete(Trick $trick, EntityManagerInterface $entityManager)
+    public function delete(Trick $trick, TricksService $tricksService)
     {
-        foreach ($trick->getPictures() as $picture) {
-            $trick->removePicture($picture);
-        }
-        foreach ($trick->getVideos() as $video) {
-            $trick->removeVideo($video);
-        }
-        $entityManager->remove($trick);
-        $entityManager->flush();
+        $tricksService->deleteTrick($trick);
         $this->addFlash('success', 'Trick deleted !');
 
         return $this->redirectToRoute('app_homepage');

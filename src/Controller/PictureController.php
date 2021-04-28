@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Picture;
 use App\Form\PictureFormType;
-use App\Service\FileUploader;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\PicturesService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,9 +21,11 @@ class PictureController extends AbstractController
     /**
      * @Route("/pictures/edit/new", name="picture_new")
      *
+     * @param Request $request
+     * @param PicturesService $picturesService
      * @return Response
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
+    public function new(Request $request, PicturesService $picturesService)
     {
         $form = $this->createForm(PictureFormType::class);
         $form->handleRequest($request);
@@ -34,12 +35,7 @@ class PictureController extends AbstractController
             $picture = $form->getData();
             /** @var UploadedFile $pictureFile */
             $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                $pictureFileName = $fileUploader->upload($pictureFile);
-                $picture->setPicture($pictureFileName);
-            }
-            $entityManager->persist($picture);
-            $entityManager->flush();
+            $picturesService->savePicture($picture, $pictureFile);
             $this->addFlash('success', 'Picture saved !');
 
             return $this->redirectToRoute('trick_edit_new');
@@ -53,9 +49,12 @@ class PictureController extends AbstractController
     /**
      * @Route("/pictures/edit/{id}", name="picture_edit")
      *
+     * @param Request $request
+     * @param Picture $picture
+     * @param PicturesService $picturesService
      * @return RedirectResponse|Response
      */
-    public function edit(Request $request, Picture $picture, EntityManagerInterface $entityManager, FileUploader $fileUploader)
+    public function edit(Request $request, Picture $picture, PicturesService $picturesService)
     {
         $form = $this->createForm(PictureFormType::class, $picture);
         $form->handleRequest($request);
@@ -65,12 +64,7 @@ class PictureController extends AbstractController
             $picture = $form->getData();
             /** @var UploadedFile $pictureFile */
             $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                $pictureFileName = $fileUploader->upload($pictureFile);
-                $picture->setPicture($pictureFileName);
-            }
-            $entityManager->persist($picture);
-            $entityManager->flush();
+            $picturesService->savePicture($picture, $pictureFile);
             $this->addFlash('success', 'Picture saved !');
 
             return $this->redirectToRoute('app_homepage');
@@ -85,12 +79,13 @@ class PictureController extends AbstractController
     /**
      * @Route("pictures/delete/{id}", name="picture_delete")
      *
+     * @param Picture $picture
+     * @param PicturesService $picturesService
      * @return RedirectResponse
      */
-    public function delete(Picture $picture, EntityManagerInterface $entityManager)
+    public function delete(Picture $picture, PicturesService $picturesService)
     {
-        $entityManager->remove($picture);
-        $entityManager->flush();
+        $picturesService->deletePicture($picture);
         $this->addFlash('success', 'Picture deleted !');
 
         return $this->redirectToRoute('app_homepage');

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Video;
 use App\Form\VideoFormType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\VideosService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,9 +20,11 @@ class VideoController extends AbstractController
     /**
      * @Route("videos/edit/new", name="video_new")
      *
+     * @param Request $request
+     * @param VideosService $videosService
      * @return RedirectResponse|Response
      */
-    public function new(Request $request, EntityManagerInterface $entityManager)
+    public function new(Request $request, VideosService $videosService)
     {
         $form = $this->createForm(VideoFormType::class);
         $form->handleRequest($request);
@@ -30,8 +32,7 @@ class VideoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Video $video */
             $video = $form->getData();
-            $entityManager->persist($video);
-            $entityManager->flush();
+            $videosService->saveVideo($video);
             $this->addFlash('success', 'Video saved !');
 
             return $this->redirectToRoute('trick_edit_new');
@@ -45,9 +46,12 @@ class VideoController extends AbstractController
     /**
      * @Route("videos/edit/{id}", name="video_edit")
      *
+     * @param Request $request
+     * @param Video $video
+     * @param VideosService $videosService
      * @return RedirectResponse|Response
      */
-    public function edit(Request $request, Video $video, EntityManagerInterface $entityManager)
+    public function edit(Request $request, Video $video, VideosService $videosService)
     {
         $form = $this->createForm(VideoFormType::class, $video);
         $form->handleRequest($request);
@@ -55,8 +59,7 @@ class VideoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Video $video */
             $video = $form->getData();
-            $entityManager->persist($video);
-            $entityManager->flush();
+            $videosService->saveVideo($video);
             $this->addFlash('success', 'Video saved !');
 
             return $this->redirectToRoute('app_homepage');
@@ -71,12 +74,13 @@ class VideoController extends AbstractController
     /**
      * @Route("videos/delete/{id}", name="video_delete")
      *
+     * @param Video $video
+     * @param VideosService $videosService
      * @return RedirectResponse
      */
-    public function delete(Video $video, EntityManagerInterface $entityManager)
+    public function delete(Video $video, VideosService $videosService)
     {
-        $entityManager->remove($video);
-        $entityManager->flush();
+        $videosService->deleteVideo($video);
         $this->addFlash('success', 'Video deleted !');
 
         return $this->redirectToRoute('app_homepage');

@@ -7,15 +7,12 @@ use App\Form\ForgotPasswordType;
 use App\Form\ResetPasswordType;
 use App\Form\UserRegistrationType;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\UsersService;
 use Exception;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -24,21 +21,22 @@ class UserController extends AbstractController
 {
     private $encoder;
     private $urlGenerator;
-    private $mailer;
 
-    public function __construct(UserPasswordEncoderInterface $encoder, UrlGeneratorInterface $urlGenerator, MailerInterface $mailer)
+    public function __construct(UserPasswordEncoderInterface $encoder, UrlGeneratorInterface $urlGenerator)
     {
         $this->encoder = $encoder;
         $this->urlGenerator = $urlGenerator;
-        $this->mailer = $mailer;
     }
 
     /**
      * @Route("/registration", name="app_register")
      *
+     * @param Request $request
+     * @param UsersService $usersService
+     * @return Response
      * @throws Exception
      */
-    public function registration(EntityManagerInterface $em, Request $request): Response
+    public function registration(Request $request, UsersService $usersService): Response
     {
         $form = $this->createForm(UserRegistrationType::class);
         $form->handleRequest($request);
@@ -47,9 +45,8 @@ class UserController extends AbstractController
             $user = $form->getData();
             $user->setPassword($this->encoder->encodePassword($user, $form['plainPassword']->getData()));
             $user->setToken(md5(random_bytes(10)));
-            $em->persist($user);
-            $em->flush();
-            $this->sendRegistrationEmail($user);
+            $usersService->save($user);
+            $usersService->sendRegistrationEmail($user);
             $this->addFlash('success', 'Your account has been register, please check your emails to activate it !');
 
             return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
@@ -60,41 +57,23 @@ class UserController extends AbstractController
         ]);
     }
 
-    protected function sendRegistrationEmail(User $user)
-    {
-        $email = (new TemplatedEmail())
-            ->from('no-reply@snowtricks.com')
-            ->to($user->getEmail())
-            ->subject('Validation of your SnowTricks account')
-            ->htmlTemplate('emails/signup.html.twig')
-            ->context([
-                'user' => $user,
-            ])
-        ;
-
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            error_log($e->getMessage());
-        }
-    }
-
     /**
      * @Route("/user/activate/{username}/{token}", name="user_activate")
      *
+     * @param UsersService $usersService
+     * @param UserRepository $repository
      * @param $username
      * @param $token
      *
      * @return RedirectResponse
      */
-    public function userActivate(EntityManagerInterface $em, UserRepository $repository, $username, $token)
+    public function userActivate(UsersService $usersService, UserRepository $repository, $username, $token)
     {
         $user = $repository->findOneBy(['username' => $username, 'token' => $token]);
         if ($user && $token && $user->getToken() === $token) {
             $user->setToken(null);
             $user->setActivated(true);
-            $em->persist($user);
-            $em->flush();
+            $usersService->save($user);
             $this->addFlash('success', 'Your account has been activated !');
         } else {
             error_log('Account activation failed !');
@@ -107,11 +86,14 @@ class UserController extends AbstractController
     /**
      * @Route("/forgot_password", name="forgot_password")
      *
+     * @param Request $request
+     * @param UserRepository $repository
+     * @param UsersService $usersService
      * @return Response
      *
      * @throws Exception
      */
-    public function forgotPassword(Request $request, UserRepository $repository, EntityManagerInterface $em)
+    public function forgotPassword(Request $request, UserRepository $repository, UsersService $usersService)
     {
         $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
@@ -122,9 +104,8 @@ class UserController extends AbstractController
                 $this->addFlash('danger', 'This user do not exist !');
             } else {
                 $user->setToken(md5(random_bytes(10)));
-                $em->persist($user);
-                $em->flush();
-                self::sendPasswordResetEmail($user);
+                $usersService->save($user);
+                $usersService->sendPasswordResetEmail($user);
                 $this->addFlash('success', 'A password reset email has been sent for your account !');
             }
         }
@@ -134,34 +115,18 @@ class UserController extends AbstractController
         ]);
     }
 
-    protected function sendPasswordResetEmail(User $user)
-    {
-        $email = (new TemplatedEmail())
-            ->from('no-reply@snowtricks.com')
-            ->to($user->getEmail())
-            ->subject('Reset password for your SnowTricks account')
-            ->htmlTemplate('emails/reset_password.html.twig')
-            ->context([
-                'user' => $user,
-            ])
-        ;
-
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            error_log($e->getMessage());
-        }
-    }
-
     /**
      * @Route("user/reset_password/{username}/{token}", name="reset_password")
      *
+     * @param UserRepository $repository
      * @param $username
+     * @param Request $request
      * @param $token
      *
+     * @param UsersService $usersService
      * @return Response
      */
-    public function resetPassword(UserRepository $repository, $username, Request $request, $token, EntityManagerInterface $entityManager)
+    public function resetPassword(UserRepository $repository, $username, Request $request, $token, UsersService $usersService)
     {
         $user = $repository->findOneBy(['username' => $username, 'token' => $token]);
         if (!$user) {
@@ -172,8 +137,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setToken(null);
             $user->setPassword($this->encoder->encodePassword($user, $form['plainPassword']->getData()));
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $usersService->save($user);
             $this->addFlash('success', 'Password updated !');
 
             return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
