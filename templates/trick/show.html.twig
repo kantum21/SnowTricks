@@ -5,11 +5,11 @@
     <div class="trick_page">
         <div class="header-container">
             {% if trick.mainPicture %}
-                <img  class="trick_main_picture" src="{{ asset('upload/' ~ trick.mainPicture.picture) }}" alt="{{ trick.mainPicture.alt }}"/>
+                <div class="trick_main_picture" style="background-image: url('{{ asset('upload/' ~ trick.mainPicture.picture) }}');"></div>
             {% elseif trick.pictures.first %}
-                <img  class="trick_main_picture" src="{{ asset('upload/' ~ trick.pictures.first.picture) }}" alt="{{ trick.pictures.first.alt }}"/>
+                <div class="trick_main_picture" style="background-image: url('{{ asset('upload/' ~ trick.pictures.first.picture) }}');"></div>
             {% else %}
-                <img  class="trick_main_picture" src="{{ asset('jpg/defaultTrick.jpg') }}" alt="Trick"/>
+                <div class="trick_main_picture" style="background-image: url('{{ asset('jpg/defaultTrick.jpg') }}');"></div>
             {% endif %}
             <h1>{{ trick.name|capitalize }}</h1>
             {% if is_granted('ROLE_USER') %}
@@ -20,6 +20,9 @@
             {% endif %}
         </div>
         <div class="container-fluid">
+            <div class="row">
+                <div class="seemedias btn btn-primary">See medias</div>
+            </div>
             <div class="trick_container">
                 {% for picture in trick.pictures %}
                     {% if picture != trick.mainPicture %}
@@ -75,4 +78,5 @@
     {{ parent() }}
     <script src="{{ asset('js/confirm_delete.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/load_more_comments.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/see_medias.js') }}" type="text/javascript"></script>
 {% endblock %}
